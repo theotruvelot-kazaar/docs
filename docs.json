@@ -58,7 +58,7 @@
           },
           {
             "group": "Endpoint examples",
-            "openapi": "api-reference/paco.json",
+            "openapi": "api-reference/openapi.json",
             "pages": [
 
             ]
