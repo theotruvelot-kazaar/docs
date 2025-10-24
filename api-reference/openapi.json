@@ -1,1 +1,2397 @@
-{"openapi":"3.0.0","paths":{"/auth/api-key":{"get":{"description":"List API Key","operationId":"ApiKeyController_findAll","parameters":[{"name":"page","required":false,"in":"path","schema":{"type":"number"}},{"name":"size","required":false,"in":"path","schema":{"type":"number"}}],"responses":{"200":{"description":"Paginated results","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"$ref":"#/components/schemas/ApiKeyEntity"}},"pagination":{"type":"object","properties":{"total":{"type":"number","default":1},"lastPage":{"type":"number","default":1},"currentPage":{"type":"number","default":1},"size":{"type":"number","default":10}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"List API Key","tags":["ApiKey"]},"post":{"description":"Create API Key","operationId":"ApiKeyController_create","parameters":[],"requestBody":{"required":true,"description":"API Key to create","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateApiKeyDto"},"examples":{"Example":{"value":{"name":"My Api-Key","account_id":"acc_2e10ca6a2e81408e8f4a4abf076dc2a4","roles":["SCOPE_READ","SCOPE_WRITE"]}}}}}},"responses":{"201":{"description":"Api-key successfully created","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/ApiKeyEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Create API Key","tags":["ApiKey"]}},"/auth/api-key/{id}":{"get":{"description":"Get API Key","operationId":"ApiKeyController_findOne","parameters":[{"name":"id","required":true,"in":"path","description":"API Key ID","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a api-key","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/ApiKeyEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"404":{"description":"Api-key not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Get API Key","tags":["ApiKey"]},"post":{"description":"Update API Key","operationId":"ApiKeyController_update","parameters":[{"name":"id","required":true,"in":"path","description":"API Key ID","schema":{"type":"string"}}],"requestBody":{"required":true,"description":"API Key to update","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateApiKeyDto"},"examples":{"Example":{"value":{"name":"My Api-Key","account_id":"acc_2e10ca6a2e81408e8f4a4abf076dc2a4","roles":["SCOPE_READ","SCOPE_WRITE"]}}}}}},"responses":{"200":{"description":"Api-key successfully updated","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/ApiKeyEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"404":{"description":"API Key not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Update API Key","tags":["ApiKey"]},"delete":{"description":"Delete API Key","operationId":"ApiKeyController_delete","parameters":[{"name":"id","required":true,"in":"path","description":"API Key ID","schema":{"type":"string"}}],"responses":{"204":{"description":"API Key deleted"},"404":{"description":"Api-key not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Delete API Key","tags":["ApiKey"]}},"/auth/api-key-login":{"post":{"description":"Login with API key","operationId":"AuthController_apiKeyLogin","parameters":[],"requestBody":{"required":true,"description":"Api-key login","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ApiKeyLoginDto"},"examples":{"Login":{"value":{"apiKey":"key_3671bb756f58444980338c42296b1620","accountId":"acc_2e10ca6a2e81408e8f4a4abf076dc2a5"}}}}}},"responses":{"default":{"description":"Success","httpStatus":200,"content":{"application/json":{"schema":{"type":"object","properties":{"access_token":{"type":"string"}}}}}}},"summary":"Login with API key","tags":["Auth"]}},"/auth/login":{"post":{"description":"User login","operationId":"AuthController_login","parameters":[],"requestBody":{"required":true,"description":"User login","content":{"application/json":{"schema":{"$ref":"#/components/schemas/LoginDto"},"examples":{"Login":{"value":{"firebaseToken":"firebaseToken"}}}}}},"responses":{"default":{"description":"Success","httpStatus":200,"content":{"application/json":{"schema":{"type":"object","properties":{"accessToken":{"type":"string"},"refreshToken":{"type":"string"}}}}}}},"summary":"User login","tags":["Auth"]}},"/auth/refresh-token":{"post":{"description":"Refresh token","operationId":"AuthController_refreshToken","parameters":[],"requestBody":{"required":true,"description":"refresh token body","content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshTokenDto"},"examples":{"RefreshToken":{"value":{"refreshToken":"refreshToken"}}}}}},"responses":{"404":{"description":"refresh token not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"default":{"description":"Success","httpStatus":200,"content":{"application/json":{"schema":{"type":"object","properties":{"accessToken":{"type":"string"},"refreshToken":{"type":"string"}}}}}}},"summary":"Refresh token","tags":["Auth"]}},"/auth/has-password":{"post":{"description":"User has password","operationId":"AuthController_userHasPassword","parameters":[],"requestBody":{"required":true,"description":"User email address","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserHasPasswordDto"},"examples":{"userHasPassword":{"value":{"email":"john@doe.com"}}}}}},"responses":{"default":{"description":"Success","httpStatus":200,"content":{"application/json":{"schema":{"type":"object","properties":{"hasPassword":{"type":"boolean"}}}}}}},"summary":"User has password","tags":["Auth"]}},"/auth/reset-password":{"post":{"description":"Reset password","operationId":"AuthController_resetPassword","parameters":[],"requestBody":{"required":true,"description":"User email address","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ResetPasswordDto"},"examples":{"resetPassword":{"value":{"email":"john@doe.com"}}}}}},"responses":{"default":{"description":"Success","httpStatus":204}},"summary":"Reset password","tags":["Auth"]}},"/auth/roles":{"get":{"description":"Get all roles with pagination","operationId":"RoleController_findAll","parameters":[{"name":"page","required":false,"in":"path","description":"Page number for pagination","schema":{"type":"number"}},{"name":"size","required":true,"in":"query","schema":{"type":"number"}},{"name":"per_page","required":false,"in":"path","description":"Number of items per page","schema":{"type":"number"}}],"responses":{"200":{"description":"Paginated results","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"$ref":"#/components/schemas/RoleEntity"}},"pagination":{"type":"object","properties":{"total":{"type":"number","default":1},"lastPage":{"type":"number","default":1},"currentPage":{"type":"number","default":1},"size":{"type":"number","default":10}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"List Roles","tags":["Role"]},"post":{"description":"Create a new role with the provided data","operationId":"RoleController_create","parameters":[],"requestBody":{"required":true,"description":"Role to create","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateRoleDto"},"examples":{"Example":{"value":{"name":"Marketing Role","type":"ADVERTISER","permissions":["briefs.management","briefs.read"]}}}}}},"responses":{"201":{"description":"Role successfully created","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/RoleEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Create Role","tags":["Role"]}},"/auth/roles/{id}":{"get":{"description":"Get a role by id","operationId":"RoleController_findOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a role","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/RoleEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"404":{"description":"Role not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Get Role","tags":["Role"]},"post":{"description":"Update an existing role with the provided data","operationId":"RoleController_update","parameters":[{"name":"id","required":true,"in":"path","description":"Role ID","schema":{"type":"string"}}],"requestBody":{"required":true,"description":"Role data to update","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateRoleDto"},"examples":{"Update name and permissions":{"value":{"name":"Updated Role Name","permissions":["briefs.management","briefs.read","users.read"]}},"Update name only":{"value":{"name":"Updated Role Name"}},"Update permissions only":{"value":{"permissions":["briefs.read"]}}}}}},"responses":{"200":{"description":"Role successfully updated","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/RoleEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"404":{"description":"Role not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Update Role","tags":["Role"]},"delete":{"description":"Delete a role by id","operationId":"RoleController_delete","parameters":[{"name":"id","required":true,"in":"path","description":"Role ID","schema":{"type":"string"}}],"responses":{"204":{"description":"Role deleted successfully"},"404":{"description":"Role not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Delete Role","tags":["Role"]}},"/auth/users":{"get":{"description":"List Users","operationId":"UserController_findAll","parameters":[{"name":"page","required":false,"in":"path","schema":{"type":"number"}},{"name":"size","required":false,"in":"path","schema":{"type":"number"}}],"responses":{"200":{"description":"Paginated results","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"$ref":"#/components/schemas/UserEntity"}},"pagination":{"type":"object","properties":{"total":{"type":"number","default":1},"lastPage":{"type":"number","default":1},"currentPage":{"type":"number","default":1},"size":{"type":"number","default":10}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"List Users","tags":["User"]},"post":{"description":"Create User","operationId":"UserController_create","parameters":[],"requestBody":{"required":true,"description":"User to create","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateUserDto"},"examples":{"Example":{"value":{"email":"user@example.com","firstName":"John","lastName":"Doe","roleId":"rol_c9539a26126c4d8fb28a02f5f81f7595","subjectId":"acc_c9539a26126c4d8fb28a02f5f81f7595"}}}}}},"responses":{"201":{"description":"User created successfully","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/UserEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Create User","tags":["User"]}},"/auth/users/{id}":{"get":{"description":"Get User","operationId":"UserController_findOne","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a user","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/UserEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Get User","tags":["User"]},"post":{"description":"Update User","operationId":"UserController_update","parameters":[{"name":"id","required":true,"in":"path","description":"User ID","schema":{"type":"string"}}],"requestBody":{"required":true,"description":"User to update","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateUserDto"},"examples":{"Example":{"value":{"email":"user@example.com","firstName":"John","lastName":"Doe"}}}}}},"responses":{"200":{"description":"Returns a user","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/UserEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Update User","tags":["User"]},"delete":{"description":"Delete User","operationId":"UserController_delete","parameters":[{"name":"id","required":true,"in":"path","description":"User ID","schema":{"type":"string"}}],"responses":{"204":{"summary":"User deleted","description":""},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Delete User","tags":["User"]}},"/auth/users/{id}/roles":{"post":{"description":"Update role to User","operationId":"UserController_updateRole","parameters":[{"name":"id","required":true,"in":"path","description":"User ID","schema":{"type":"string"}}],"requestBody":{"required":true,"description":"Update user role","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateRoleUserDto"},"examples":{"Example":{"value":{"roleId":"rol_c9539a26126c4d8fb28a02f5f81f7595","subjectId":"acc_c9539a26126c4d8fb28a02f5f81f7595"}}}}}},"responses":{"200":{"description":"Returns a user","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"$ref":"#/components/schemas/UserEntity"},"timestamp":{"type":"string","format":"date-time","example":"2025-09-03T13:04:43.353Z"}},"required":["data","timestamp"]}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Update role to User","tags":["User"]},"delete":{"description":"Delete role to User","operationId":"UserController_deleteRole","parameters":[{"name":"id","required":true,"in":"path","description":"User ID","schema":{"type":"string"}}],"requestBody":{"required":true,"description":"Delete user role","content":{"application/json":{"schema":{"$ref":"#/components/schemas/DeleteRoleUserDto"},"examples":{"Example":{"value":{"roleId":"rol_c9539a26126c4d8fb28a02f5f81f7595","subjectId":"acc_c9539a26126c4d8fb28a02f5f81f7595"}}}}}},"responses":{"200":{"description":"User Role deleted","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserEntity"}}}},"400":{"description":"Validation failed","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}},"404":{"description":"User not found","content":{"application/json":{"schema":{"type":"object","properties":{"error":{"type":"object","properties":{"message":{"type":"string"},"code":{"type":"string"},"details":{"type":"object"}}},"timestamp":{"type":"string","format":"date-time"}}}}}}},"summary":"Delete role to User","tags":["User"]}},"/auth/sync/accounts":{"post":{"operationId":"AccountController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateAccountDto"}}}},"responses":{"201":{"description":""}},"tags":["Account"]}},"/auth/sync/accounts/{id}":{"post":{"operationId":"AccountController_update","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateAccountDto"}}}},"responses":{"201":{"description":""}},"tags":["Account"]},"delete":{"operationId":"AccountController_delete","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Account"]}},"/auth/sync/organizations":{"post":{"operationId":"OrganizationController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateOrganizationDto"}}}},"responses":{"201":{"description":""}},"tags":["Organization"]}},"/auth/sync/organizations/{id}":{"post":{"operationId":"OrganizationController_update","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateOrganizationDto"}}}},"responses":{"201":{"description":""}},"tags":["Organization"]},"delete":{"operationId":"OrganizationController_delete","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Organization"]}},"/auth/sync/workspaces":{"post":{"operationId":"WorkspaceController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateWorkspaceDto"}}}},"responses":{"201":{"description":""}},"tags":["Workspace"]}},"/auth/sync/workspaces/{id}":{"post":{"operationId":"WorkspaceController_update","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateWorkspaceDto"}}}},"responses":{"201":{"description":""}},"tags":["Workspace"]},"delete":{"operationId":"WorkspaceController_delete","parameters":[{"name":"id","required":true,"in":"path","schema":{"type":"string"}}],"responses":{"200":{"description":""}},"tags":["Workspace"]}}},"info":{"title":"Authentication API","description":"This Authentification API for Kazaar","version":"0.1","contact":{}},"tags":[],"servers":[{"url":"http://localhost:3002"}],"components":{"schemas":{"ApiKeyEntity":{"type":"object","properties":{"id":{"type":"string"},"roles":{"type":"array","example":["SCOPE_READ","SCOPE_WRITE"],"items":{"type":"string","enum":["SCOPE_READ","SCOPE_WRITE","SCOPE_KAZAAR_API"]}},"userId":{"type":"string"}},"required":["id","roles","userId"]},"CreateApiKeyDto":{"type":"object","properties":{"accountId":{"type":"string"},"name":{"type":"string"},"roles":{"type":"array","example":["SCOPE_READ","SCOPE_WRITE"],"items":{"type":"string","enum":["SCOPE_READ","SCOPE_WRITE","SCOPE_KAZAAR_API"]}}},"required":["accountId","name","roles"]},"UpdateApiKeyDto":{"type":"object","properties":{"accountId":{"type":"string"},"name":{"type":"string"},"roles":{"type":"array","example":["SCOPE_READ","SCOPE_WRITE"],"items":{"type":"string","enum":["SCOPE_READ","SCOPE_WRITE","SCOPE_KAZAAR_API"]}}}},"ApiKeyLoginDto":{"type":"object","properties":{}},"LoginDto":{"type":"object","properties":{}},"RefreshTokenDto":{"type":"object","properties":{}},"UserHasPasswordDto":{"type":"object","properties":{}},"ResetPasswordDto":{"type":"object","properties":{}},"RoleEntity":{"type":"object","properties":{"id":{"type":"string"},"accountId":{"type":"object"},"name":{"type":"string"},"type":{"type":"string"},"permissions":{"type":"array","items":{"type":"string"}}},"required":["id","accountId","name","type","permissions"]},"CreateRoleDto":{"type":"object","properties":{"name":{"type":"string"},"type":{"type":"string"},"permissions":{"type":"array","items":{"type":"string"}}},"required":["name","type","permissions"]},"UpdateRoleDto":{"type":"object","properties":{"name":{"type":"string"},"type":{"type":"string"},"permissions":{"type":"array","items":{"type":"string"}}}},"UserEntity":{"type":"object","properties":{"id":{"type":"string"},"email":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"createdAt":{"format":"date-time","type":"string"},"updatedAt":{"format":"date-time","type":"string"},"roles":{"type":"object"}},"required":["id","email","firstName","lastName","createdAt","updatedAt","roles"]},"CreateUserDto":{"type":"object","properties":{"email":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"},"roleId":{"type":"string"},"subjectId":{"type":"string"}},"required":["email","firstName","lastName","roleId","subjectId"]},"UpdateUserDto":{"type":"object","properties":{"email":{"type":"string"},"firstName":{"type":"string"},"lastName":{"type":"string"}}},"AddRoleUserDto":{"type":"object","properties":{"roleId":{"type":"string"},"subjectId":{"type":"string"}},"required":["roleId","subjectId"]},"DeleteRoleUserDto":{"type":"object","properties":{"subjectId":{"type":"string"}},"required":["subjectId"]},"UpdateRoleUserDto":{"type":"object","properties":{"roleId":{"type":"string"},"subjectId":{"type":"string"}},"required":["roleId","subjectId"]},"CreateAccountDto":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"}},"required":["id","name"]},"UpdateAccountDto":{"type":"object","properties":{"name":{"type":"string"}}},"CreateOrganizationDto":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"accountId":{"type":"string"}},"required":["id","name","accountId"]},"UpdateOrganizationDto":{"type":"object","properties":{"name":{"type":"string"}}},"CreateWorkspaceDto":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"organizationId":{"type":"string"}},"required":["id","name","organizationId"]},"UpdateWorkspaceDto":{"type":"object","properties":{"name":{"type":"string"}}}}}}
+{
+    "openapi": "3.0.0",
+    "paths": {
+      "/auth/api-key": {
+        "get": {
+          "description": "List API Key",
+          "operationId": "ApiKeyController_findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "size",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Paginated results",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ApiKeyEntity"
+                        }
+                      },
+                      "pagination": {
+                        "type": "object",
+                        "properties": {
+                          "total": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "lastPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "currentPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "size": {
+                            "type": "number",
+                            "default": 10
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "List API Key",
+          "tags": [
+            "ApiKey"
+          ]
+        },
+        "post": {
+          "description": "Create API Key",
+          "operationId": "ApiKeyController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "API Key to create",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateApiKeyDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "name": "My Api-Key",
+                      "account_id": "acc_2e10ca6a2e81408e8f4a4abf076dc2a4",
+                      "roles": [
+                        "SCOPE_READ",
+                        "SCOPE_WRITE"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Api-key successfully created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/ApiKeyEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Create API Key",
+          "tags": [
+            "ApiKey"
+          ]
+        }
+      },
+      "/auth/api-key/{id}": {
+        "get": {
+          "description": "Get API Key",
+          "operationId": "ApiKeyController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "API Key ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Returns a api-key",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/ApiKeyEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Api-key not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Get API Key",
+          "tags": [
+            "ApiKey"
+          ]
+        },
+        "post": {
+          "description": "Update API Key",
+          "operationId": "ApiKeyController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "API Key ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "API Key to update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateApiKeyDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "name": "My Api-Key",
+                      "account_id": "acc_2e10ca6a2e81408e8f4a4abf076dc2a4",
+                      "roles": [
+                        "SCOPE_READ",
+                        "SCOPE_WRITE"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Api-key successfully updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/ApiKeyEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "API Key not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Update API Key",
+          "tags": [
+            "ApiKey"
+          ]
+        },
+        "delete": {
+          "description": "Delete API Key",
+          "operationId": "ApiKeyController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "API Key ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "API Key deleted"
+            },
+            "404": {
+              "description": "Api-key not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Delete API Key",
+          "tags": [
+            "ApiKey"
+          ]
+        }
+      },
+      "/auth/api-key-login": {
+        "post": {
+          "description": "Login with API key",
+          "operationId": "AuthController_apiKeyLogin",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "Api-key login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyLoginDto"
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "apiKey": "key_3671bb756f58444980338c42296b1620",
+                      "accountId": "acc_2e10ca6a2e81408e8f4a4abf076dc2a5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "access_token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Login with API key",
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "description": "User login",
+          "operationId": "AuthController_login",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "User login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginDto"
+                },
+                "examples": {
+                  "Login": {
+                    "value": {
+                      "firebaseToken": "firebaseToken"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "accessToken": {
+                        "type": "string"
+                      },
+                      "refreshToken": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "User login",
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
+      "/auth/refresh-token": {
+        "post": {
+          "description": "Refresh token",
+          "operationId": "AuthController_refreshToken",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "refresh token body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenDto"
+                },
+                "examples": {
+                  "RefreshToken": {
+                    "value": {
+                      "refreshToken": "refreshToken"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "404": {
+              "description": "refresh token not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "accessToken": {
+                        "type": "string"
+                      },
+                      "refreshToken": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Refresh token",
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
+      "/auth/has-password": {
+        "post": {
+          "description": "User has password",
+          "operationId": "AuthController_userHasPassword",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "User email address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserHasPasswordDto"
+                },
+                "examples": {
+                  "userHasPassword": {
+                    "value": {
+                      "email": "john@doe.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "hasPassword": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "User has password",
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
+      "/auth/reset-password": {
+        "post": {
+          "description": "Reset password",
+          "operationId": "AuthController_resetPassword",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "User email address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetPasswordDto"
+                },
+                "examples": {
+                  "resetPassword": {
+                    "value": {
+                      "email": "john@doe.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "204": {
+              "description": "Success"
+            }
+          },
+          "summary": "Reset password",
+          "tags": [
+            "Auth"
+          ]
+        }
+      },
+      "/auth/roles": {
+        "get": {
+          "description": "Get all roles with pagination",
+          "operationId": "RoleController_findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "description": "Page number for pagination",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "size",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": false,
+              "in": "query",
+              "description": "Number of items per page",
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Paginated results",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/RoleEntity"
+                        }
+                      },
+                      "pagination": {
+                        "type": "object",
+                        "properties": {
+                          "total": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "lastPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "currentPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "size": {
+                            "type": "number",
+                            "default": 10
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "List Roles",
+          "tags": [
+            "Role"
+          ]
+        },
+        "post": {
+          "description": "Create a new role with the provided data",
+          "operationId": "RoleController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "Role to create",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRoleDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "name": "Marketing Role",
+                      "type": "ADVERTISER",
+                      "permissions": [
+                        "briefs.management",
+                        "briefs.read"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Role successfully created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/RoleEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Create Role",
+          "tags": [
+            "Role"
+          ]
+        }
+      },
+      "/auth/roles/{id}": {
+        "get": {
+          "description": "Get a role by id",
+          "operationId": "RoleController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Returns a role",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/RoleEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Role not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Get Role",
+          "tags": [
+            "Role"
+          ]
+        },
+        "post": {
+          "description": "Update an existing role with the provided data",
+          "operationId": "RoleController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "Role ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "Role data to update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateRoleDto"
+                },
+                "examples": {
+                  "Update name and permissions": {
+                    "value": {
+                      "name": "Updated Role Name",
+                      "permissions": [
+                        "briefs.management",
+                        "briefs.read",
+                        "users.read"
+                      ]
+                    }
+                  },
+                  "Update name only": {
+                    "value": {
+                      "name": "Updated Role Name"
+                    }
+                  },
+                  "Update permissions only": {
+                    "value": {
+                      "permissions": [
+                        "briefs.read"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Role successfully updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/RoleEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Role not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Update Role",
+          "tags": [
+            "Role"
+          ]
+        },
+        "delete": {
+          "description": "Delete a role by id",
+          "operationId": "RoleController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "Role ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Role deleted successfully"
+            },
+            "404": {
+              "description": "Role not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Delete Role",
+          "tags": [
+            "Role"
+          ]
+        }
+      },
+      "/auth/users": {
+        "get": {
+          "description": "List Users",
+          "operationId": "UserController_findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "size",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Paginated results",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/UserEntity"
+                        }
+                      },
+                      "pagination": {
+                        "type": "object",
+                        "properties": {
+                          "total": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "lastPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "currentPage": {
+                            "type": "number",
+                            "default": 1
+                          },
+                          "size": {
+                            "type": "number",
+                            "default": 10
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "List Users",
+          "tags": [
+            "User"
+          ]
+        },
+        "post": {
+          "description": "Create User",
+          "operationId": "UserController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "description": "User to create",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "email": "user@example.com",
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "roleId": "rol_c9539a26126c4d8fb28a02f5f81f7595",
+                      "subjectId": "acc_c9539a26126c4d8fb28a02f5f81f7595"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Create User",
+          "tags": [
+            "User"
+          ]
+        }
+      },
+      "/auth/users/{id}": {
+        "get": {
+          "description": "Get User",
+          "operationId": "UserController_findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Returns a user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Get User",
+          "tags": [
+            "User"
+          ]
+        },
+        "post": {
+          "description": "Update User",
+          "operationId": "UserController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "User to update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "email": "user@example.com",
+                      "firstName": "John",
+                      "lastName": "Doe"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Returns a user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Update User",
+          "tags": [
+            "User"
+          ]
+        },
+        "delete": {
+          "description": "Delete User",
+          "operationId": "UserController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "User deleted"
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Delete User",
+          "tags": [
+            "User"
+          ]
+        }
+      },
+      "/auth/users/{id}/roles": {
+        "post": {
+          "description": "Update role to User",
+          "operationId": "UserController_updateRole",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "description": "Update user role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateRoleUserDto"
+                },
+                "examples": {
+                  "Example": {
+                    "value": {
+                      "roleId": "rol_c9539a26126c4d8fb28a02f5f81f7595",
+                      "subjectId": "acc_c9539a26126c4d8fb28a02f5f81f7595"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Returns a user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/UserEntity"
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-09-03T13:04:43.353Z"
+                      }
+                    },
+                    "required": [
+                      "data",
+                      "timestamp"
+                    ]
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Update role to User",
+          "tags": [
+            "User"
+          ]
+        },
+        "delete": {
+          "description": "Delete role to User",
+          "operationId": "UserController_deleteRole",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "description": "User ID",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "subjectId",
+              "required": true,
+              "in": "query",
+              "description": "Subject ID",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User Role deleted",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/UserEntity"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Validation failed",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "details": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "summary": "Delete role to User",
+          "tags": [
+            "User"
+          ]
+        }
+      },
+      "/auth/sync/accounts": {
+        "post": {
+          "operationId": "AccountController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAccountDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Account"
+          ]
+        }
+      },
+      "/auth/sync/accounts/{id}": {
+        "post": {
+          "operationId": "AccountController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAccountDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Account"
+          ]
+        },
+        "delete": {
+          "operationId": "AccountController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Account"
+          ]
+        }
+      },
+      "/auth/sync/organizations": {
+        "post": {
+          "operationId": "OrganizationController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrganizationDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Organization"
+          ]
+        }
+      },
+      "/auth/sync/organizations/{id}": {
+        "post": {
+          "operationId": "OrganizationController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrganizationDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Organization"
+          ]
+        },
+        "delete": {
+          "operationId": "OrganizationController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Organization"
+          ]
+        }
+      },
+      "/auth/sync/workspaces": {
+        "post": {
+          "operationId": "WorkspaceController_create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWorkspaceDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Workspace"
+          ]
+        }
+      },
+      "/auth/sync/workspaces/{id}": {
+        "post": {
+          "operationId": "WorkspaceController_update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateWorkspaceDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Workspace"
+          ]
+        },
+        "delete": {
+          "operationId": "WorkspaceController_delete",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Workspace"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "Authentication API",
+      "description": "This Authentification API for Kazaar",
+      "version": "0.1",
+      "contact": {
+  
+      }
+    },
+    "tags": [],
+    "servers": [
+      {
+        "url": "http://localhost:3002"
+      }
+    ],
+    "components": {
+      "schemas": {
+        "ApiKeyEntity": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "roles": {
+              "type": "array",
+              "example": [
+                "SCOPE_READ",
+                "SCOPE_WRITE"
+              ],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "SCOPE_READ",
+                  "SCOPE_WRITE",
+                  "SCOPE_KAZAAR_API"
+                ]
+              }
+            },
+            "userId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "roles",
+            "userId"
+          ]
+        },
+        "CreateApiKeyDto": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "roles": {
+              "type": "array",
+              "example": [
+                "SCOPE_READ",
+                "SCOPE_WRITE"
+              ],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "SCOPE_READ",
+                  "SCOPE_WRITE",
+                  "SCOPE_KAZAAR_API"
+                ]
+              }
+            }
+          },
+          "required": [
+            "accountId",
+            "name",
+            "roles"
+          ]
+        },
+        "UpdateApiKeyDto": {
+          "type": "object",
+          "properties": {
+            "accountId": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "roles": {
+              "type": "array",
+              "example": [
+                "SCOPE_READ",
+                "SCOPE_WRITE"
+              ],
+              "items": {
+                "type": "string",
+                "enum": [
+                  "SCOPE_READ",
+                  "SCOPE_WRITE",
+                  "SCOPE_KAZAAR_API"
+                ]
+              }
+            }
+          }
+        },
+        "ApiKeyLoginDto": {
+          "type": "object",
+          "properties": {
+  
+          }
+        },
+        "LoginDto": {
+          "type": "object",
+          "properties": {
+  
+          }
+        },
+        "RefreshTokenDto": {
+          "type": "object",
+          "properties": {
+  
+          }
+        },
+        "UserHasPasswordDto": {
+          "type": "object",
+          "properties": {
+  
+          }
+        },
+        "ResetPasswordDto": {
+          "type": "object",
+          "properties": {
+  
+          }
+        },
+        "RoleEntity": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "accountId": {
+              "type": "object"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "accountId",
+            "name",
+            "type",
+            "permissions"
+          ]
+        },
+        "CreateRoleDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "name",
+            "type",
+            "permissions"
+          ]
+        },
+        "UpdateRoleDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "UserEntity": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "createdAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "updatedAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "roles": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "id",
+            "email",
+            "firstName",
+            "lastName",
+            "createdAt",
+            "updatedAt",
+            "roles"
+          ]
+        },
+        "CreateUserDto": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "roleId": {
+              "type": "string"
+            },
+            "subjectId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "email",
+            "firstName",
+            "lastName",
+            "roleId",
+            "subjectId"
+          ]
+        },
+        "UpdateUserDto": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            }
+          }
+        },
+        "AddRoleUserDto": {
+          "type": "object",
+          "properties": {
+            "roleId": {
+              "type": "string"
+            },
+            "subjectId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "roleId",
+            "subjectId"
+          ]
+        },
+        "DeleteRoleUserDto": {
+          "type": "object",
+          "properties": {
+            "subjectId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "subjectId"
+          ]
+        },
+        "UpdateRoleUserDto": {
+          "type": "object",
+          "properties": {
+            "roleId": {
+              "type": "string"
+            },
+            "subjectId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "roleId",
+            "subjectId"
+          ]
+        },
+        "CreateAccountDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ]
+        },
+        "UpdateAccountDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateOrganizationDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "accountId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "accountId"
+          ]
+        },
+        "UpdateOrganizationDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateWorkspaceDto": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "organizationId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "organizationId"
+          ]
+        },
+        "UpdateWorkspaceDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
