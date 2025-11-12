@@ -98,6 +98,11 @@
       "href": "https://dashboard.mintlify.com"
     }
   },
+  "api": {
+    "params": {
+      "expanded": "all"
+    }
+  },
   "contextual": {
     "options": [
      "copy",
